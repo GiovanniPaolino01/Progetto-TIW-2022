@@ -1,0 +1,30 @@
+@charset "ISO-8859-1";
+
+.container {
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	flex-basis: auto;
+	margin: 15px;
+}
+
+.sub_container{
+	margin-left: 50px;
+	margin-right: 50px;
+	text-align: center;
+}
+
+.errore {
+ 	color: red;
+}
+
+.ok {
+	color: green;
+}
+
+.css_aggiungi_immagine{
+	width : 50%;
+	position:relative;
+	top: -200;
+	left: 50%;
+}
