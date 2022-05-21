@@ -30,7 +30,7 @@
 			</thead>
 			<tbody>
 				<tr th:each="a : ${albumsMiei}">
-					<td> <a th:href="@{/GoToAlbumPage(titolo=${a.titolo})}" th:text="${a.titolo}"></a></td>
+					<td> <a th:href="@{/GoToAlbumPage(titolo=${a.titolo}, username=${a.user_id})}" th:text="${a.titolo}"></a></td>
 					<td th:text="${a.user_id}"></td>
 					<td th:text="${a.data_creazione}"></td>
 					<!--  <td><a th:href="@{/...(titolo=${a.titolo})}">Apri</a></td> -->
@@ -52,7 +52,7 @@
 			</thead>
 			<tbody>
 				<tr th:each="a : ${albumsNonMiei}">
-					<td> <a th:href="@{/GoToAlbumPage(titolo=${a.titolo})}" th:text="${a.titolo}"></a></td>
+					<td> <a th:href="@{/GoToAlbumPage(titolo=${a.titolo}, username=${a.user_id})}" th:text="${a.titolo}"></a></td>
 					<td th:text="${a.user_id}"></td>
 					<td th:text="${a.data_creazione}"></td>
 					<!-- servlet che ci prende le immagini da quell'album-->

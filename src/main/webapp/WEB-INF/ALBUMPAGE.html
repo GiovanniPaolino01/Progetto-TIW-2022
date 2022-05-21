@@ -25,23 +25,36 @@
 	<br>
 	<br>
 	<br>
-	<table>
-		<tr>
-			<td th:each="i : ${immagini}"> 
-				<img th:src="@{/GetImage(titolo=${i.titolo}, percorso=${i.percorso})}" style="width:260px;height:200px">
-				<p th:text="${i.titolo}"></p>
-			</td>
-		</tr>
-	</table>
-	
-	<!-- IDEA: si potrebbe creare un array di (array di 5 immagini) ed iterare
-	 creando 1 tabella per ogni elem della tab esterna ed una colonna per ogni 
-	 immagine dell'elemento di cui si sta facendo la tabella e al momento in cui
-	 si schiaccia next o previous si seleziona l'elemento precedente o successivo
-	 dell'array-->
-	 
-	 
-	
-
+	<div>
+		<table>
+			<div align="left">	
+				<form action="#" th:action="@{/ButtonsHandler(parametro=${parametro}, tipo='precedente', titolo=${album.titolo}, username=${album.user_id})}" method="POST">
+				<input th:type="${previous}" th:name="previous" th:value="PREVIOUS">
+				</form>			
+			</div>
+			<div align="center">
+				<tr>
+					<td th:each="i : ${solo_5_immagini}">
+					
+						<img th:src="@{/GetImage(titolo=${i.titolo}, percorso=${i.percorso})}" style="width:260px;height:200px">
+						<p th:text="${i.titolo}"></p>
+							
+					</td>
+				</tr>
+			</div>
+			
+			<!-- questo bottone chiama la servlet ButtonHandler passandogli gli attributi parametro,tipo,titolo(dell'album),username(dell'album) 
+			il type, cioè se il bottone si deve vedere o dev'essere hidden, è deciso a run-time in base al valore ritornato dalla Servlet GoToAlbumPage
+			la quale, se ha più di 5 img, oppure calcolo fatto da ilaria, fa comparire il bottone altrimenti no
+			parametro serve per sapere a che "pagina" di visualizzazione delle immagini sono
+			tipo identifica il bottone che ha effettuato la chiamata-->
+			
+			<div align="right">	
+				<form action="#" th:action="@{/ButtonsHandler(parametro=${parametro}, tipo='successivo', titolo=${album.titolo}, username=${album.user_id})}" method="POST">
+					<input th:type="${next}" name="next" value="NEXT">
+				</form>			
+			</div>
+		</table>
+	</div>
 </body>
 </html>

@@ -24,7 +24,7 @@ private Connection connection;
 		
 		List<Immagine> immagini = new ArrayList<Immagine>();
 		
-		String query = "SELECT titolo,percorso FROM immagine WHERE user_id = ? AND titolo_album = ? AND user_album = ?";
+		String query = "SELECT titolo,percorso FROM immagine WHERE user_id = ? AND titolo_album = ? AND user_album = ? ORDER BY data DESC";
 		
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setString(1, user_id);
