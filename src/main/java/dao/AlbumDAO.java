@@ -33,6 +33,27 @@ public class AlbumDAO {
 		}
 	}
 	
+	public Album cercaAlbumPerTitolo(String titolo, String username) throws SQLException{
+		
+		Album album = new Album();
+		
+		String query = "SELECT * FROM album WHERE titolo = ? AND user_id = ?";
+		
+		//preparo i parametri per fare una lettura corretta da db
+		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
+			pstatement.setString(1, titolo);
+			pstatement.setString(2, username);
+			try (ResultSet result = pstatement.executeQuery();) {
+				while (result.next()) {
+					album.setTitolo(result.getString("titolo"));
+					album.setUser_id(result.getString("user_id"));
+					album.setData_Creazione(result.getDate("data_creazione"));
+				}
+			}
+		}
+		return album;
+	}
+	
 	public List<Album> cercaAlbumPerUtente(String username) throws SQLException{
 		
 		List<Album> albums = new ArrayList<Album>();
@@ -59,11 +80,12 @@ public class AlbumDAO {
 		
 		List<Album> albums = new ArrayList<Album>();
 
-		String query = "SELECT * FROM album WHERE not(user_id = ?) ORDER BY data_creazione DESC";
+		String query = "SELECT * FROM album WHERE not(user_id = ?) AND not(titolo = ?) ORDER BY data_creazione DESC";
 		
 		//preparo i parametri per fare una lettura corretta da db
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setString(1, username);
+			pstatement.setString(2, "Nuove_Immagini");
 			try (ResultSet result = pstatement.executeQuery();) {
 				while (result.next()) {
 					Album album = new Album();

@@ -1,6 +1,6 @@
 package controllers;
 
-import java.io.IOException;       
+import java.io.IOException;        
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -51,10 +51,8 @@ public class GoToHome extends HttpServlet {
   		templateResolver.setSuffix(".html");
   	}
   	
-  	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+  	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
   		
-  		//caricamento album da db relativi a quell'utente
   		String loginpath = getServletContext().getContextPath() + "/Welcome";
   		HttpSession session = request.getSession();
   		if (session.isNew() || session.getAttribute("utente") == null) {
@@ -105,8 +103,7 @@ public class GoToHome extends HttpServlet {
 		templateEngine.process(path, ctx, response.getWriter());
 	}
   	
-  	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+  	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 

@@ -1,10 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>ALBUM PAGE</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../CSS/stylesheet.css" th:href="@{/css/stylesheet.css}" />
 </head>
 <body>
+
+	<div align="left">
+		<a th:href="@{/GoToHome}"> Home </a>
+	</div>
+	
+	<div align="right">
+		<a th:href="@{/Logout}"> Logout </a>
+	</div>
+	
+	<div align="center">
+	<h1>ALBUMPAGE</h1>
+	<h3 th:text="${album.titolo}"></h3>
+	<p th:text="${album.user_id}"></p>
+	</div>
+	<hr>
+	<br>
+	<br>
+	<br>
+	<table>
+		<tr>
+			<td th:each="i : ${immagini}"> 
+				<img th:src="@{/GetImage(titolo=${i.titolo}, percorso=${i.percorso})}" style="width:260px;height:200px">
+				<p th:text="${i.titolo}"></p>
+			</td>
+		</tr>
+	</table>
+	
+	<!-- IDEA: si potrebbe creare un array di (array di 5 immagini) ed iterare
+	 creando 1 tabella per ogni elem della tab esterna ed una colonna per ogni 
+	 immagine dell'elemento di cui si sta facendo la tabella e al momento in cui
+	 si schiaccia next o previous si seleziona l'elemento precedente o successivo
+	 dell'array-->
+	 
+	 
+	
 
 </body>
 </html>

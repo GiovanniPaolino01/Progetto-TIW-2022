@@ -22,4 +22,9 @@
   <welcome-file-list>
     <welcome-file>Welcome</welcome-file>
   </welcome-file-list>
+  
+  <context-param>
+    <param-name>outputpath</param-name>
+    <param-value>\Users\giosb\eclipse-workspace\Progetto-TIW-GalleriaImmagini\immagini\</param-value>
+  </context-param>
 </web-app>

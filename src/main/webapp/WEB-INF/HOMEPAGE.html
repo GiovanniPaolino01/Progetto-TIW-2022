@@ -7,108 +7,113 @@
 	href="../CSS/stylesheet.css" th:href="@{/css/stylesheet.css}" />
 </head>
 <body>
-
 	<div align="right">
 		<a th:href="@{/Logout}">Logout</a>
 	</div>
 
 	<div align="center">
-	<h1>HOMEPAGE</h1>
-	<p th:text="${'Ciao ' + session.utente.username}"></p>
+		<h1>HOMEPAGE</h1>
+		<p th:text="${'Ciao ' + session.utente.username}"></p>
+	</div>
+	
+	<hr>
+	<div class="container">
+		<div class="sub_container">
+		<table>
+			<caption><h3>I MIEI ALBUM</h3></caption>
+			<thead>
+				<tr>
+					<th>Titolo</th>
+					<th>Utente</th>
+					<th>Data Creazione</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="a : ${albumsMiei}">
+					<td> <a th:href="@{/GoToAlbumPage(titolo=${a.titolo})}" th:text="${a.titolo}"></a></td>
+					<td th:text="${a.user_id}"></td>
+					<td th:text="${a.data_creazione}"></td>
+					<!--  <td><a th:href="@{/...(titolo=${a.titolo})}">Apri</a></td> -->
+					<!-- servlet che ci prende le immagini da quell'album-->
+					<!--  <td><a th:href="@{/GetMissionDetails(missionid=${m.id})}">Details</a></td>-->
+				</tr>
+			</tbody>
+		</table>
+		</div>
+		<div class="sub_container">
+		<table>
+			<caption><h3>ALBUM ALTRUI</h3></caption>
+			<thead>
+				<tr>
+					<th>Titolo</th>
+					<th>Utente</th>
+					<th>Data Creazione</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="a : ${albumsNonMiei}">
+					<td> <a th:href="@{/GoToAlbumPage(titolo=${a.titolo})}" th:text="${a.titolo}"></a></td>
+					<td th:text="${a.user_id}"></td>
+					<td th:text="${a.data_creazione}"></td>
+					<!-- servlet che ci prende le immagini da quell'album-->
+					<!--  <td><a th:href="@{/GetMissionDetails(missionid=${m.id})}">Details</a></td>-->
+				</tr>
+			</tbody>
+		</table>
+		</div>
 	</div>
 	<hr>
 	<div class="container">
-	<div class="sub_container">
-	<table>
-		<caption><h3>I MIEI ALBUM</h3></caption>
-		<thead>
-			<tr>
-				<th>Titolo</th>
-				<th>Utente</th>
-				<th>Data Creazione</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="a : ${albumsMiei}">
-				<td th:text="${a.titolo}"></td>
-				<td th:text="${a.user_id}"></td>
-				<td th:text="${a.data_creazione}"></td>
-				<!-- servlet che ci prende le immagini da quell'album-->
-				<!--  <td><a th:href="@{/GetMissionDetails(missionid=${m.id})}">Details</a></td>-->
-			</tr>
-		</tbody>
-	</table>
-	</div>
-	<div class="sub_container">
-	<table>
-		<caption><h3>ALBUM ALTRUI</h3></caption>
-		<thead>
-			<tr>
-				<th>Titolo</th>
-				<th>Utente</th>
-				<th>Data Creazione</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="a : ${albumsNonMiei}">
-				<td th:text="${a.titolo}"></td>
-				<td th:text="${a.user_id}"></td>
-				<td th:text="${a.data_creazione}"></td>
-				<!-- servlet che ci prende le immagini da quell'album-->
-				<!--  <td><a th:href="@{/GetMissionDetails(missionid=${m.id})}">Details</a></td>-->
-			</tr>
-		</tbody>
-	</table>
-	</div>
-</div>
-<hr>
-<div class="container">
-<div class="sub_container">
-<h3>Crea Album:</h3>
-	<form action="CreateAlbum" method="POST">
-		Nome Album: <input type="text" name="nome_album" required> <br>
-		<br> 
-		<input type="submit" value="Submit">
-		<p class = "errore" th:text=" ${errorCreateAlbum}"></p>
-	</form>
-</div>
-
-
-<div class="sub_container">
-<h3>Aggiungi immagine ad un album</h3>
-	<form action="..." method="POST">
+		<div class="sub_container">
+			<h3>Crea Album:</h3>
+			<fieldset>
+				<form action="CreateAlbum" method="POST">
+					<table>
+						<tr><th>Nome Album: </th><td><input type="text" name="nome_album" required> </td></tr>
+						<tr><th><input type="submit" value="Submit"></th></tr>
+						<p class = "errore" th:text=" ${errorCreateAlbum}"></p>
+					</table>
+				</form>
+			</fieldset>
+		</div>
 	
-		<table>
-		<tr><th>Nome Album: </th> <td>
-			<form>
-				<select>
-				<option th:each="a: ${albumsMiei}" value="${a.titolo}" th:text="${a.titolo}"></option>
-				</select>
-			</form></td></tr>
-			<tr></tr>
-		<tr><th>Nome Immagine: </th> <td>
-			<form>
-				<select>
-				<option th:each="i: ${nuove_immagini}" value="${i.titolo}" th:text="${i.titolo}"></option>
-				</select>
-			</form></td></tr>
-		<tr><td><input type="submit" value="Submit"></td></tr>
-		</table>
-		<!--  <p class = "errore" th:text=" ${errorCredentials}"></p> -->
-	</form>
-</div>
-
-
-<div class="sub_container">
-<h3>Aggiungi Immagine:</h3>
-	<form action="..." method="POST">
-		Titolo: <input type="text" name="titolo" required> <br><br>
-		upload: <input type="..."  ><br><br>
-		<input type="submit" value="Submit"><br>
-		<!-- <p class = "errore" th:text=" ${errorCredentials}"></p> -->
-	</form>
-</div>
-
-</div>
+	
+		<div class="sub_container">
+			<h3>Aggiungi immagine ad un album</h3>
+			<fieldset>
+				<form action="#" th:action="@{/InsertIntoAlbum}" method="POST">
+					<table>
+					<tr><th>Nome Album: </th><td>
+						<select name="album">
+							<option th:each="a: ${albumsMiei}" th:value="${a.titolo}" th:text="${a.titolo}"></option>
+						</select>
+						</td></tr>
+						<tr><th>Nome Immagine: </th><td>
+						<select name="immagine">
+							<option th:each="i: ${nuove_immagini}" th:value="${i.titolo}" th:text="${i.titolo}"></option>
+						</select>
+						</td></tr>
+					<tr><th><input type="submit" value="Submit"></th></tr>
+					</table>
+					<!--  <p class = "errore" th:text=" ${errorCredentials}"></p> -->
+				</form>
+			</fieldset>
+		</div>
+	
+		<div class="sub_container">
+			<h3>Aggiungi Immagine:</h3>
+			<fieldset>
+				<form action="UploadImage" method="POST" enctype="multipart/form-data">
+					<table>
+						<tr><th>Nome Immagine:</th><td><input type="text" name="nome_immagine" required></td></tr>
+						<tr><th>Upload:</th><td><input type="file" name="img"></td></tr>
+						<tr><th>Testo descrittivo:</th><td><input type="text" name="testo_descrittivo"></td></tr>
+						<tr><th><input type="submit" value="Submit"></th></tr>
+					</table>
+					<!-- <p class = "errore" th:text=" ${errorCredentials}"></p> -->
+				</form>
+			</fieldset>
+		</div>
+	</div>
 </body>
 </html>
