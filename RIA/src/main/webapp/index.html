@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login Page</title>
+<link rel="stylesheet" type="text/css" media="all" href="css/stylesheet.css" />
+<script src="Utils.js" charset="utf-8" defer></script>
+<script src="LoginHandler.js" charset="utf-8" defer></script>
+<script src="RegistrationHandler.js" charset="utf-8" defer></script>
+</head>
+<body>
+	<div align="center">
+		<h1>Benvututo nella Galleria Di Immagini</h1>
+	</div>
+	
+<div class="container">
+	<div class="sub_container">
+		<h3>Se hai un account accedi</h3>
+	<form action="#">
+		<fieldset>
+			<table>
+			<tr><th>Username: </th> <td><input type="text" name="username" required> </td></tr>
+			<tr><th>Password: </th> <td><input type="password" name="pw" required> </td></tr>
+			<tr><td><input id="loginbutton" type="button" value="Login"></td></tr>
+			</table>
+			<p id="errormessage_login" class="errore"></p>
+		</fieldset>
+	</form>
+	</div>
+	<div class="sub_container">
+	<h3>Se non hai un account Registrati</h3>
+	
+	<form action="#">
+		<fieldset>
+			<table>
+			<tr><th>Username: </th> <td><input id="username" type="email" name="username" required></td></tr>
+			<tr><th>Password: </th> <td><input id="pw" type="password" name="pw" required></td></tr>
+			<tr><th>Ripeti Password: </th> <td><input id="ripetipw" type="password" name="ripeti_pw" required></td></tr>
+			<tr><td><input id="registrationbutton" type="button" value="Submit"></td></tr>
+			</table>
+			<p id="errormessage_registration" class="errore"></p>
+			<p id="okmessage_registration" class="ok"></p>
+		</fieldset>
+	</form>
+	</div>
+</div>
+</body>
+</html>

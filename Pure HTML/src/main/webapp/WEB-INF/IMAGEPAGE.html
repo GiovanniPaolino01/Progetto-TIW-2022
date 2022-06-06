@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>IMAGE PAGE</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../CSS/stylesheet.css" th:href="@{/css/stylesheet.css}" />
+</head>
+<body>
+
+	<div>
+	<table width ="100%">
+	<tr width="100%">
+		<td align="left"><a href="#" th:href="@{/GoToAlbumPage(titolo=${nomealbum}, username=${immagine.user_id})}"> Album Page </a></td>
+		<td align="right"><a href="#" th:href="@{/Logout}" > Logout </a></td>
+	</tr>
+	</table>
+	</div>
+
+	
+
+	<div class="container">
+	<div class="sub_container">
+	<img th:src="@{/GetImage(percorso=${percorso})}" style="max-width:900px; max-height:900px">
+	</div>
+	
+	<div class="sub_container">
+	<table border=3>
+		<tr>
+			<th>Titolo Immagine</th><td th:text="${immagine.titolo}"></td>
+		</tr>
+		<tr>
+			<th>Proprietario dell'Immagine</th><td th:text="${immagine.user_id}"></td>
+		</tr>
+		<tr>
+			<th>Data Crezione</th><td th:text="${immagine.data}"></td>
+		</tr>
+		<tr>
+			<th>Testo</th><td th:text="${immagine.testo}"></td>
+		</tr>
+		<tr>
+			<th>Percorso</th><td th:text="${immagine.percorso}"></td>
+			</tr>
+		<tr>
+			<th>Album a cui appartiene</th><td th:text="${nomealbum}"></td>
+		</tr>
+	</table>
+	</div>
+	</div>
+
+			
+	<div>
+		<h2>Crea Commento:</h2>
+		<fieldset>
+			<form th:action="@{/AddComment(titolo_immagine=${immagine.titolo}, user_immagine=${immagine.user_id}, percorso=${immagine.percorso})}" method="POST">
+				<table>
+					<tr><th>Testo: </th><td width=100%><input type="text" name="testo_commento" width=100% required> </td></tr>
+					<tr><td><input type="submit" value="Submit"></td></tr>
+				</table>
+			</form>
+		</fieldset>
+	</div>
+	
+	<div>
+		<h3>Commenti fatti:</h2>
+		<table border=3>
+			<tr th:each="c : ${commenti}">
+				<td th:text="${c.user_commento}"></td>
+				<td th:text="${c.testo}"></td>
+			</tr>
+		</table>
+	</div>
+
+</body>
+</html>

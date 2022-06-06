@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>HOME</title>
+<link rel="stylesheet" type="text/css" media="all" href="css/stylesheet.css" />
+<script src="Utils.js" charset="utf-8" defer></script>                                          <!-- definire il file utils.js -->
+<script src="ImageGalleryHandler.js" charset="utf-8" defer></script>     					<!-- definire ... -->	
+</head>
+<body>
+
+	<div align="right">
+		<a href="Logout">Logout</a>
+	</div>
+	
+	<div align="center">
+		<h1>Benvenuto nella Galleria Di Immagini versione RIA</h1>
+		<p>Ciao <span id="id_username"></span></p>
+	</div>
+
+	<div id="id_alert" class="alertmessage"></div>
+	
+	<div class="container">
+		<div class="sub_container">
+			<table id="id_albumMieiContainer">
+				<caption><h3>I MIEI ALBUM</h3></caption>
+				<thead>
+					<tr>
+						<th>Titolo</th>
+						<th>Data Creazione</th>
+					</tr>
+				</thead>
+				<tbody id="id_albumMieiBody">
+				</tbody>
+<!-- aggiungere i document.createElement("tr") con  draggable="true"  ondragstart="dragStart(event)"  ondragleave="dragLeave(event)"ondragOver="dragOver(event)" ondrop="drop(event)"-->
+			</table>
+		</div>
+		
+		<div class="sub_container">
+			<table id="id_albumNonMieiContainer">
+				<caption><h3>ALBUM ALTRUI</h3></caption>
+				<thead>
+					<tr>
+						<th>Titolo</th>
+						<th>Utente</th>
+						<th>Data Creazione</th>
+					</tr>
+				</thead>
+				<tbody id="id_albumNonMieiBody"></tbody>
+<!-- aggiungere i document.createElement("tr") con  draggable="true"  ondragstart="dragStart(event)"  ondragleave="dragLeave(event)"ondragOver="dragOver(event)" ondrop="drop(event)"-->
+			</table>
+		</div>
+	</div>
+	
+	<hr>
+	
+	
+	<div class="container">
+		<div class="sub_container">
+			<form action="#">
+				<fieldset>
+					<p>Nome Album <input type="text" name="nome_album" required /></p>
+					<input id="id_button_creaAlbum" type="button" name="submit" value="Submit">
+					<p id="errore_createAlbum" class="errore"></p>
+					<p id="ok_createAlbum" class="ok"></p>
+				</fieldset>
+			</form>
+		</div>
+	
+	
+	<!-- <div class="sub_container">
+		<form action="#">
+			<fieldset>
+				<p>Nome Album <input type="text" name="album" required /></p>
+				<p>Nome Immagine <input type="text" name="immagine" required /></p>
+				<input id="id_button_insertIntoAlbum" type="button" name="submit" value="Submit">
+				<p id="errore_addImage" class="errore"></p>
+				<p id="ok_addImage" class="ok"></p>
+			</fieldset>
+		</form>
+	</div>-->
+	
+	
+	<div class="sub_container">
+		<form id="id_form_InsertIntoAlbum" action="#">
+			<fieldset>
+				<p>Nome Album: 
+					<select id="id_nomeAlbum" name="album"></select>
+				</p>
+				<p>Nome Immagine: 
+					<select id="id_nomeImmagine" name="immagine"></select>
+				</p>	
+				<input id="id_button_insertIntoAlbum" type="button" value="Submit">
+				<p id="errore_addImage" class="errore"></p>
+				<p id="ok_addImage" class="ok"></p>
+			</fieldset>
+		</form>
+	</div>
+	
+	
+	<div class="sub_container">
+	<form id="id_upload_immagine" action="#">
+		<fieldset>
+			<p>Nome Immagine <input type="text" name="Nome Immagine" required /></p>
+			<input type="file" name="img" value="Upload">
+			<p>Testo Descrittivo <input type="text" name="Testo Descrittivo" required /></p>
+			<input id="id_button_upload_immagine" type="button" name="Upload Immagine" value="Submit">
+		</fieldset>
+	</form>
+	</div>
+	</div>			
+	<hr>	
+	
+	<div align="center">
+		<p>Album <span id="id_nome_album"></span></p>
+		<p>Proprietario Album <span id="id_user_album"></span></p>
+	</div>
+	
+	<div>
+		<table>
+			<tr>
+				<td id="id_..."></td>
+			</tr>
+		</table>
+	</div>
+	
+<!-- HOMEPAGE -->
+<!-- albummiei, albumaltri, 3 form: upload immagini, creare nuovo album, aggiungere immagine ad album -->
+<!-- ALBUMPAGE -->
+<!-- 5 miniature, bottone dx e sx -->
+<!-- IMAGEPAGE -->
+<!-- immagine grandezza naturale, commenti, dettagli, form per inserire i commenti -->
+	
+
+</body>
+</html>
