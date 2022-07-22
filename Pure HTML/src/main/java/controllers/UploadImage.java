@@ -1,6 +1,7 @@
 package controllers;
 
-import java.io.File; 
+import org.apache.commons.io.FilenameUtils;
+import java.io.File;  
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -21,12 +22,10 @@ import javax.servlet.http.Part;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import beans.Utente;
-import dao.AlbumDAO;
 import dao.ImmagineDAO;
 import utils.ConnectionHandler;
 
@@ -73,11 +72,7 @@ public class UploadImage extends HttpServlet {
 		} catch (NumberFormatException | NullPointerException e) { /*Le eccezioni vengono lanciate se ci sono campi con formati errati o non compilati*/
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Impossibile eseguire l'upload dell'immagine");
 		}
-		
-		//String Nome_Immagine = StringEscapeUtils.escapeJava(request.getParameter("img"));
-		
-		
-		
+
 		
 		try { /*Controllo che nel DB non esista un'immagine con lo stesso nome per quell'utente*/
 			ImmagineDAO immagineDAO = new ImmagineDAO(connection);
@@ -111,53 +106,52 @@ public class UploadImage extends HttpServlet {
 			
 				Part imagePart = request.getPart("img");
 				InputStream imageStream = null;
-				String mimeType = null;
-				
-				// TODO: controllo che sia un tipo png, jpg
-				//TODO: da vedere ok di ritorno
+				//String mimeType = null;
 				
 				if (imagePart == null || imagePart.getSize() <= 0) {
-					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing file in request!");
+					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "File mancante");
 					return;
 				}
 				
 				String imageName = Paths.get(imagePart.getSubmittedFileName()).getFileName().toString();
 				String outputPath = folderPath + imageName;
+				String extension = FilenameUtils.getExtension(imageName);
 				
-				if (imagePart != null) {
-					imageStream = imagePart.getInputStream();
-					String filename = imagePart.getSubmittedFileName();
-					mimeType = getServletContext().getMimeType(filename);
+				if(extension.equals("jpg") || extension.equals("JPG") || extension.equals("jpeg") || extension.equals("JPEG") || extension.equals("png") || extension.equals("PNG") || extension.equals("webp") || extension.equals("WEBP")) {
+					
+					if (imagePart != null) {
+						imageStream = imagePart.getInputStream();
+						//String filename = imagePart.getSubmittedFileName();
+						//mimeType = getServletContext().getMimeType(filename);
+					}
+				
+					File image = new File(outputPath);
+					
+					try /*(InputStream imageContent = imagePart.getInputStream())*/ {
+						
+						//copio il file dal file content alla cartella di destinazione
+						
+						Files.copy(imageStream, image.toPath());
+					
+					} catch (Exception e) {
+						e.printStackTrace();
+						response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore nel salvataggio del file");
+						return;
+					}
+					
+					
+					//salvi nel DB l'immagine
+					try {
+					
+						immagineDAO.creaImmagineNelDB(Nome_Immagine, username,  data, Testo_Descrittivo, outputPath, titolo_album, imageStream);
+						
+					}catch(SQLException e) {
+						response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Impossibile salvare nel DB");
+						return;
+					}
 				}
-			
-				File image = new File(outputPath);
-				
-				try (InputStream imageContent = imagePart.getInputStream()) {
-					/**
-					 * copio il file dal file content alla cartella in cui voglio andare
-					 */
-					Files.copy(imageContent, image.toPath());
-					//System.out.println("File saved correctly!");
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-					response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error while saving file");
-					return;
-				}
-				
-				
-				//salvi nel DB l'immagine
-				try {
-				
-					immagineDAO.creaImmagineNelDB(Nome_Immagine, username,  data, Testo_Descrittivo, outputPath, titolo_album, imageStream);
-					
-					/**String path;
-					path = getServletContext().getContextPath() + "/GoToHome";
-					response.sendRedirect(path);*/
-					
-					
-				}catch(SQLException e) {
-					response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Impossibile salvare nel DB");
+				else {
+					response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Il tipo di file non e' un'immagine, inserisci un'immagine!");
 					return;
 				}
 		    
@@ -167,15 +161,6 @@ public class UploadImage extends HttpServlet {
 		}
 	}
 		
-		
-		
-		
-		
-		
-		
-		
-	
-    
     public void destroy() {
 		try {
 			ConnectionHandler.closeConnection(connection);

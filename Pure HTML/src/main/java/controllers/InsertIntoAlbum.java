@@ -1,28 +1,19 @@
 package controllers;
 
-
-import java.io.File; 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
@@ -66,8 +57,6 @@ public class InsertIntoAlbum extends HttpServlet {
 		String Nome_Immagine = StringEscapeUtils.escapeJava(request.getParameter("immagine"));
 		Utente utente = (Utente) session.getAttribute("utente");
 		String username = utente.getUsername();
-		
-		//System.out.println(Nome_Album + Nome_Immagine);
 		
 		ImmagineDAO immagineDAO = new ImmagineDAO(connection);
 		

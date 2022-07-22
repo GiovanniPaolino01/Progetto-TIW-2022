@@ -1,4 +1,5 @@
 package beans;
+
 import java.sql.Date;
 
 public class Immagine {
@@ -9,6 +10,7 @@ public class Immagine {
 	private String percorso;
 	private String titolo_album;
 	private String user_album;
+	private String image;
 	
 	public Immagine() {
 		
@@ -22,6 +24,13 @@ public class Immagine {
 		this.percorso = percorso;
 		this.titolo_album = titolo_album;
 		this.user_album = user_album;
+	}
+	
+	public String getImage() {
+	    return image;
+	}
+	public void setImage(String image) {
+	    this.image = image;
 	}
 	
 	public void setTitolo(String titolo) {

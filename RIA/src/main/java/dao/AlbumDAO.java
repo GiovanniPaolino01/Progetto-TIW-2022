@@ -58,6 +58,28 @@ public class AlbumDAO {
 		
 		List<Album> albums = new ArrayList<Album>();
 
+		String query = "SELECT * FROM album WHERE user_id = ? AND NOT(titolo = 'Nuove_Immagini') ORDER BY num";
+		
+		//preparo i parametri per fare una lettura corretta da db
+		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
+			pstatement.setString(1, username);
+			try (ResultSet result = pstatement.executeQuery();) {
+				while (result.next()) {
+					Album album = new Album();
+					album.setTitolo(result.getString("titolo"));
+					album.setUser_id(result.getString("user_id"));
+					album.setData_Creazione(result.getDate("data_creazione"));
+					albums.add(album);
+				}
+			}
+		}
+		return albums;
+	}
+	
+public List<Album> cercaAlbumPerUtenteOrderByData(String username) throws SQLException{
+		
+		List<Album> albums = new ArrayList<Album>();
+
 		String query = "SELECT * FROM album WHERE user_id = ? AND NOT(titolo = 'Nuove_Immagini') ORDER BY data_creazione DESC";
 		
 		//preparo i parametri per fare una lettura corretta da db
@@ -101,14 +123,38 @@ public class AlbumDAO {
 	
 	public void creaAlbum(String titolo, String user_id, Date data_creazione) throws SQLException{
 		
-		String query = "INSERT into album (titolo,user_id,data_creazione) VALUES(?, ?, ?)";
+		String query1 = "UPDATE album SET num = num+1 WHERE (user_id = ?)";
+		
+		try (PreparedStatement pstatement = connection.prepareStatement(query1);) {
+			pstatement.setString(1, user_id);
+			pstatement.executeUpdate();
+		}
+		
+		String query = "INSERT into album (titolo,user_id,data_creazione,num) VALUES(?, ?, ?, ?)";
 		
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setString(1, titolo);
 			pstatement.setString(2, user_id);
 			pstatement.setDate(3, data_creazione);
+			pstatement.setInt(4, 0);
 			pstatement.executeUpdate();
 		}
 		
 	}	
+	
+	public void modificaOrdine(String nomeAlbum, int indice, String username) throws SQLException{
+		
+		String query = "UPDATE album SET num = ? WHERE (titolo = ? AND user_id = ?)";
+		
+		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
+			pstatement.setInt(1, indice);
+			pstatement.setString(2, nomeAlbum);
+			pstatement.setString(3, username);
+			pstatement.executeUpdate();
+		}
+		
+		
+	}
+	
+	
 }

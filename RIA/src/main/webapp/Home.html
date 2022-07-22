@@ -4,8 +4,10 @@
 <meta charset="ISO-8859-1">
 <title>HOME</title>
 <link rel="stylesheet" type="text/css" media="all" href="css/stylesheet.css" />
-<script src="Utils.js" charset="utf-8" defer></script>                                          <!-- definire il file utils.js -->
-<script src="ImageGalleryHandler.js" charset="utf-8" defer></script>     					<!-- definire ... -->	
+<script src="Utils.js" charset="utf-8" defer></script>               
+<script src="Drag_Drop.js" charset="utf-8" defer></script>                             
+<script src="ImageGalleryHandler.js" charset="utf-8" defer></script>     
+
 </head>
 <body>
 
@@ -18,7 +20,7 @@
 		<p>Ciao <span id="id_username"></span></p>
 	</div>
 
-	<div id="id_alert" class="alertmessage"></div>
+	<div id="id_alert"></div>
 	
 	<div class="container">
 		<div class="sub_container">
@@ -32,8 +34,12 @@
 				</thead>
 				<tbody id="id_albumMieiBody">
 				</tbody>
-<!-- aggiungere i document.createElement("tr") con  draggable="true"  ondragstart="dragStart(event)"  ondragleave="dragLeave(event)"ondragOver="dragOver(event)" ondrop="drop(event)"-->
 			</table>
+			<br>
+			<p><input id="id_salvaOrdinamento" type="button" value="Salva ordinamento"></p>
+			<p><input id="id_resettaOrdinamento" type="button" value="Visualizza per Data"></p>
+			<p id="errore_salvaOrdinamento" class="errore"></p>
+			<p id="ok_salvaOrdinamento" class="ok"></p>
 		</div>
 		
 		<div class="sub_container">
@@ -47,7 +53,6 @@
 					</tr>
 				</thead>
 				<tbody id="id_albumNonMieiBody"></tbody>
-<!-- aggiungere i document.createElement("tr") con  draggable="true"  ondragstart="dragStart(event)"  ondragleave="dragLeave(event)"ondragOver="dragOver(event)" ondrop="drop(event)"-->
 			</table>
 		</div>
 	</div>
@@ -57,6 +62,7 @@
 	
 	<div class="container">
 		<div class="sub_container">
+		<h3>Crea Album:</h3>
 			<form action="#">
 				<fieldset>
 					<p>Nome Album <input type="text" name="nome_album" required /></p>
@@ -66,22 +72,9 @@
 				</fieldset>
 			</form>
 		</div>
-	
-	
-	<!-- <div class="sub_container">
-		<form action="#">
-			<fieldset>
-				<p>Nome Album <input type="text" name="album" required /></p>
-				<p>Nome Immagine <input type="text" name="immagine" required /></p>
-				<input id="id_button_insertIntoAlbum" type="button" name="submit" value="Submit">
-				<p id="errore_addImage" class="errore"></p>
-				<p id="ok_addImage" class="ok"></p>
-			</fieldset>
-		</form>
-	</div>-->
-	
-	
+
 	<div class="sub_container">
+		<h3>Aggiungi immagine ad un album:</h3>
 		<form id="id_form_InsertIntoAlbum" action="#">
 			<fieldset>
 				<p>Nome Album: 
@@ -95,33 +88,69 @@
 				<p id="ok_addImage" class="ok"></p>
 			</fieldset>
 		</form>
-	</div>
+	</div>	
+	</div>	
+	<hr>
 	
-	
-	<div class="sub_container">
-	<form id="id_upload_immagine" action="#">
-		<fieldset>
-			<p>Nome Immagine <input type="text" name="Nome Immagine" required /></p>
-			<input type="file" name="img" value="Upload">
-			<p>Testo Descrittivo <input type="text" name="Testo Descrittivo" required /></p>
-			<input id="id_button_upload_immagine" type="button" name="Upload Immagine" value="Submit">
-		</fieldset>
-	</form>
-	</div>
-	</div>			
-	<hr>	
+	<div id="modal" class="modal">
+         <div id="modal_wrap" class="modal_wrap">
+            <span class="modal_close">×</span>
+            <div align="center">
+            <h2>Dettagli Immagine</h2>
+            </div>
+            <div class="container">
+            	<div id="containerImmagine" class="sub_container"></div>
+            	<div class="sub_container">
+            		<table align="center" border=1>
+            		<tbody id = "id_body_modale"></tbody>
+            		</table>
+            		<h3>Commenti</h3>
+            		<div style="height:100px;overflow-y: scroll; border:1px solid black;">
+            		<table id="id_commentiContainer">
+						<!-- <caption><h3>Commenti</h3></caption>-->
+						<thead>
+							<tr>
+								<th>Utente</th>
+								<th>Testo commento</th>
+							</tr>
+						</thead>
+						<tbody id="id_commentiBody">
+						</tbody>
+					</table>
+					</div>
+            		
+      				<form action="#">
+      					<h3>Aggiungi commento:</h3>
+						<fieldset>
+							<p>Testo Commento: <input type="text" id="testo_commento" name="testo_commento" required /></p>
+							<input id="id_button_creaCommento" type="button" name="submit" value="Submit">
+							<p id="errore_creaCommento" class="errore"></p>
+							<p id="ok_creaCommento" class="ok"></p>
+						</fieldset>
+					</form>
+            	</div>
+            </div>
+            <p id="modal_content">caricamento...</p>
+         </div>
+    </div>
 	
 	<div align="center">
-		<p>Album <span id="id_nome_album"></span></p>
-		<p>Proprietario Album <span id="id_user_album"></span></p>
+		<p>Album: <span id="id_nome_album"></span></p>
+		<p>Proprietario Album: <span id="id_user_album"></span></p>
 	</div>
 	
-	<div>
-		<table>
-			<tr>
-				<td id="id_..."></td>
-			</tr>
-		</table>
+	<div class="container">
+	<table>
+		<tr>
+			<td><input id="id_button_previous" type="button" value="PREVIOUS"></td>
+			<td>
+				<table id="id_container_miniatureImmagini">
+					<tbody id="id_body_miniatureImmagini"></tbody>
+				</table>
+			</td>
+			<td><input id="id_button_next" type="button" value="NEXT"></td>
+		</tr>
+	</table>
 	</div>
 	
 <!-- HOMEPAGE -->

@@ -25,12 +25,17 @@
  </filter> 
 
   <filter-mapping> 
-    <filter-name>SessionChecker</filter-name> 
-    <url-pattern>/GetAlbumsMiei</url-pattern> 
-    <url-pattern>/GetAlbumsNonMiei</url-pattern>
+    <filter-name>SessionChecker</filter-name>
+    <url-pattern>/AddComment</url-pattern>
     <url-pattern>/CreateAlbum</url-pattern>
+    <url-pattern>/GetAlbumsMiei</url-pattern>
+    <url-pattern>/GetAlbumsMieiOrderByData</url-pattern> 
+    <url-pattern>/GetAlbumsNonMiei</url-pattern>
+    <url-pattern>/GetComment</url-pattern>
+    <url-pattern>/GetImage</url-pattern>
+    <url-pattern>/GetNewImages</url-pattern>
     <url-pattern>/InsertIntoAlbum</url-pattern>
-	<!-- mettiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii servlet-->
+    <url-pattern>/SaveOrder</url-pattern>
     <url-pattern>/Home.html</url-pattern> 
  </filter-mapping> 
   

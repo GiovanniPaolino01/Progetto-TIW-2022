@@ -1,6 +1,6 @@
 package controllers;
 
-import java.io.IOException;
+import java.io.IOException; 
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -12,13 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
-import beans.Album;
 import utils.ConnectionHandler;
 
 @WebServlet("/ButtonsHandler")
@@ -40,12 +36,6 @@ public class ButtonsHandler extends HttpServlet {
   		this.templateEngine.setTemplateResolver(templateResolver);
   		templateResolver.setSuffix(".html");
   	}
-
-	
-	/*protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}*/
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -72,9 +62,6 @@ public class ButtonsHandler extends HttpServlet {
 		}
 		
 		String path = "/GoToAlbumPage";
-		//ServletContext servletContext = getServletContext();
-		//final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		//session.setAttribute("parametro", parametro);
 		request.setAttribute("parametro",parametro);
 		//forward invia la richiesta di questa Servlet con gli stessi parametri alla GoToAlbumPage
 		request.getRequestDispatcher(path).forward(request, response);		

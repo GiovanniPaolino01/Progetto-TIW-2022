@@ -1,6 +1,6 @@
 package controllers;
 
-import java.io.IOException;    
+import java.io.IOException;     
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -15,12 +15,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import beans.Utente;
-import dao.UtenteDAO;
 import dao.AlbumDAO;
 import utils.ConnectionHandler;
 
@@ -45,13 +43,6 @@ public class CreateAlbum extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-
-	
-	/**protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}*/
-
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -86,21 +77,11 @@ public class CreateAlbum extends HttpServlet {
 		}
 		
 		if(isBadRequest) {
+			
 			String path;
-			/**ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("errorCreateAlbum", "Album già esistente");
-			path = "/WEB-INF/HOMEPAGE.html";
-			templateEngine.process(path, ctx, response.getWriter());
-			//path = getServletContext().getContextPath() + "/GoToHome";
-			//response.sendRedirect(path);*/
-			
-			
-			//session.setAttribute("AlbumEsistente", true);
 			request.setAttribute("AlbumEsistente", "Album già esistente");
-			//path = getServletContext().getContextPath() + "/GoToHome";
 			path = "/GoToHome";
-			//response.sendRedirect(path);
+			//la forward serve per passare gli errori (settati come attributi della request) alla servlet GoToHome che poi verranno visualizzati nella HOMEPAGE
 			request.getRequestDispatcher(path).forward(request, response);
 			
 		}else {
@@ -114,20 +95,9 @@ public class CreateAlbum extends HttpServlet {
 			Date data = new Date(milliseconds);
 			try {
 				albumDAO.creaAlbum(nome_album,username,data);
-				
-				/**String path;
-				ServletContext servletContext = getServletContext();
-				final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-				ctx.setVariable("OkReg", "La registrazione è andata a buon fine!");
-				path = "/WEB-INF/HOMEPAGE.html";
-				templateEngine.process(path, ctx, response.getWriter());*/
-				
 				String path;
-				//session.setAttribute("utente", utente);
-				//session.setAttribute("errorCreateAlbum", "");
-				//path = getServletContext().getContextPath() + "/GoToHome";
 				path = "/GoToHome";
-				//response.sendRedirect(path);
+				//la forward serve per passare gli errori (settati come attributi della request) alla servlet GoToHome che poi verranno visualizzati nella HOMEPAGE
 				request.getRequestDispatcher(path).forward(request, response);
 				
 			} catch (SQLException e) {

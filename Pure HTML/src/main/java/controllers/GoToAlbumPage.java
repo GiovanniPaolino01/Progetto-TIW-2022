@@ -1,6 +1,6 @@
 package controllers;
 
-import java.io.IOException;        
+import java.io.IOException;         
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import beans.Utente;
-import dao.UtenteDAO;
 import dao.AlbumDAO;
 import dao.ImmagineDAO;
 import beans.Album;
@@ -66,9 +65,7 @@ public class GoToAlbumPage extends HttpServlet {
 		try {
 			titolo_album = StringEscapeUtils.escapeJava(request.getParameter("titolo"));
 			username = StringEscapeUtils.escapeJava(request.getParameter("username"));
-			//System.out.println("titolo: "+ titolo_album + "\nUsername: "+ username);
 		} catch (NumberFormatException | NullPointerException e) {
-			// only for debugging e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect param values");
 			return;
 		}
@@ -88,26 +85,20 @@ public class GoToAlbumPage extends HttpServlet {
 		//passandogli come valori username dell'album e titolo dell'album
 		try {
 			album = albumDAO.cercaAlbumPerTitolo(titolo_album, username);
-			//controlli???
 			immagini = immagineDAO.selezionaImmaginiDaAlbum(username, titolo_album);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
-		List<Immagine> solo_5_immagini = new ArrayList();
+		List<Immagine> solo_5_immagini = new ArrayList<Immagine>();
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		int buttonParameter = 0;
 		try{
-			//buttonParameter = (int) session.getAttribute("parametro");
 			buttonParameter = (int) request.getAttribute("parametro");
 		}catch(Exception e) {
-			//session.setAttribute("parametro", 0);
 			request.setAttribute("parametro", 0);
 		}
-		
-		//System.out.println("parametro in goToAlbumPage"+session.getAttribute("parametro"));
-		
 		
 		//carica 5 immagini nella lista solo_5_immagini in base a questa condizione
 		for(int i=(0 + 5*buttonParameter) ; i<immagini.size() && (i<5 + 5*buttonParameter); i++) {

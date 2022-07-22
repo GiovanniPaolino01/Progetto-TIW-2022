@@ -1,11 +1,9 @@
 package dao;
 
-import java.sql.Connection;   
+import java.sql.Connection;    
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
-
 import beans.Utente;
 
 public class UtenteDAO {
@@ -21,7 +19,9 @@ public class UtenteDAO {
 	 * controlla la validità delle credenziali nel db
 	 */
 	public Utente checkCredentials(String username, String pw) throws SQLException {
+		
 		String query = "SELECT username, password FROM utente  WHERE username = ? AND password =?";
+		
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setString(1, username);
 			pstatement.setString(2, pw);

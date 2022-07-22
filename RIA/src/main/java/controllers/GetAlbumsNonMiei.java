@@ -1,30 +1,21 @@
 package controllers;
 
-import java.io.IOException;        
+import java.io.IOException;         
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang.StringEscapeUtils;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import beans.Utente;
-import dao.UtenteDAO;
 import dao.AlbumDAO;
-import dao.ImmagineDAO;
 import beans.Album;
-import beans.Immagine;
 import utils.ConnectionHandler;
 
 
@@ -50,7 +41,6 @@ public class GetAlbumsNonMiei extends HttpServlet {
   		Utente utente = (Utente) session.getAttribute("utente");
   		
   		AlbumDAO albumDAO = new AlbumDAO(connection);
-  		ImmagineDAO immagineDAO = new ImmagineDAO(connection);
 
   		List<Album> albumsNonMiei = new ArrayList<Album>();
   		
@@ -64,6 +54,7 @@ public class GetAlbumsNonMiei extends HttpServlet {
 		}
   		//redirect alla home page caricando gli album da db
 		
+  		response.setStatus(HttpServletResponse.SC_OK);
   		Gson gson = new GsonBuilder().setDateFormat("yyyy MMM dd").create();
 		String json = gson.toJson(albumsNonMiei);
 		

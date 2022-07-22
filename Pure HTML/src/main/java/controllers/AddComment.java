@@ -1,8 +1,7 @@
 package controllers;
 
-import java.io.IOException;    
+import java.io.IOException;     
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 
 import javax.servlet.ServletContext;
@@ -15,15 +14,11 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import beans.Utente;
-import dao.UtenteDAO;
-import dao.AlbumDAO;
 import dao.CommentoDAO;
-import dao.ImmagineDAO;
 import utils.ConnectionHandler;
 
 
@@ -81,7 +76,7 @@ public class AddComment extends HttpServlet {
 			commentoDAO.faiCommento(testo_commento, userimmagine, titoloimmagine, username);
 			
 		} catch (SQLException e) {
-			System.out.println("errore nel fare il commento");
+			//System.out.println("errore nel fare il commento");
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Impossibile aggiungere il commento");
 		}
 		

@@ -8,14 +8,15 @@
 </head>
 <body>
 
-	<div align="left">
-		<a th:href="@{/GoToHome}"> Home </a>
+	<div>
+	<table width ="100%">
+	<tr width="100%">
+		<td align="left"><a th:href="@{/GoToHome}"> Home </a></td>
+		<td align="right"><a href="#" th:href="@{/Logout}" > Logout </a></td>
+	</tr>
+	</table>
 	</div>
-	
-	<div align="right">
-		<a th:href="@{/Logout}"> Logout </a>
-	</div>
-	
+
 	<div align="center">
 	<h1>ALBUMPAGE</h1>
 	<h3 th:text="${album.titolo}"></h3>
@@ -38,7 +39,6 @@
 				<tr>
 					<td th:each="i : ${solo_5_immagini}">
 						<a th:href="@{/GoToImagePage(titolo=${i.titolo}, username=${album.user_id}, percorso=${i.percorso})}">
-						<!--<img th:src="@{/GetImage(titolo=${i.titolo}, percorso=${i.percorso})}" style="width:260px;height:200px"></a>-->
 						<img th:src="@{/GetImage(percorso=${i.percorso})}" style="width:260px;height:200px"></a>
 						<p th:text="${i.titolo}" align="center"></p>
 

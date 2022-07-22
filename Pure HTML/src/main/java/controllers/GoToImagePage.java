@@ -1,8 +1,6 @@
 package controllers;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,12 +20,8 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import beans.Utente;
-import dao.UtenteDAO;
-import dao.AlbumDAO;
 import dao.CommentoDAO;
 import dao.ImmagineDAO;
-import beans.Album;
 import beans.Commento;
 import beans.Immagine;
 import utils.ConnectionHandler;
@@ -82,7 +76,6 @@ public class GoToImagePage extends HttpServlet {
 			
 			System.out.println("titolo: "+ titolo_immagine + "\nUsername: "+ username + "\npercorso: "+ percorso);
 		} catch (NumberFormatException | NullPointerException e) {
-			// only for debugging e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect param values");
 			return;
 		}
@@ -97,17 +90,16 @@ public class GoToImagePage extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Impossibile estrarre l'immagine");
 		}
 		
+		//estraiamo i commenti dal DB
 		List<Commento> commenti = new ArrayList<Commento>();
 		CommentoDAO commentoDAO = new CommentoDAO(connection);
 		
 		try {
-			commenti = commentoDAO.ottieniCommenti(titolo_immagine);
+			commenti = commentoDAO.ottieniCommenti(titolo_immagine, username);
 		} catch (SQLException e) {
 			System.out.println("errore nel caricare i commenti");
 			e.printStackTrace();
 		}
-		
-		//System.out.println("titolo: "+ immagine.getTitolo() + "\nUsername: "+ immagine.getUser_id() + "\npercorso: "+ immagine.getPercorso());
 		
 		String path = null;
 		ServletContext servletContext = getServletContext();
@@ -120,12 +112,6 @@ public class GoToImagePage extends HttpServlet {
 		ctx.setVariable("commenti", commenti);
 		
 		templateEngine.process(path, ctx, response.getWriter());
-		
-		/**request.setAttribute("immagine", immagine);
-		request.setAttribute("percorso", immagine.getPercorso());
-		String path = "/GetImage";
-		request.getRequestDispatcher(path).forward(request, response);*/
-
 	}
   	
   	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

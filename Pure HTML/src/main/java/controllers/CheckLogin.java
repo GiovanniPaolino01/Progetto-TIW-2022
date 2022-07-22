@@ -48,37 +48,31 @@ public class CheckLogin extends HttpServlet {
 	 * successivamente crea un oggetto UtenteDAO e chiamiamo il metodo al suo interno per che fa una query SQL
 	 * controllando all'interno del db se le credenziali sono corrette altrimenti manda errore
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// obtain and escape params
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		String username = null;
 		String pw = null;
 		try {
 			username = StringEscapeUtils.escapeJava(request.getParameter("username"));
 			pw = StringEscapeUtils.escapeJava(request.getParameter("pw"));
 			if (username == null || pw == null || username.isEmpty() || pw.isEmpty()) {
-				throw new Exception("Missing or empty credential value");
+				throw new Exception("Credenziali vuote o mancanti");
 			}
 
 		} catch (Exception e) {
-			// for debugging only e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Credenziali mancanti");
 			return;
 		}
 
-		// query db to authenticate for user
 		UtenteDAO utenteDao = new UtenteDAO(connection);
 		Utente utente = null;
 		try {
 			utente = utenteDao.checkCredentials(username, pw);
 		} catch (SQLException e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not Possible to check credentials");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Impossibile verificare le credenziali");
 			return;
 		}
 
-		// If the user exists, add info to the session and go to home page, otherwise
-		// show login page with error message
-		
 		/*
 		 * Se le credenziali sono corrette allora reindirizza l'utente alla home page
 		 * Se l'utente ritornato dal metodo chiamato da utenteDAO == null allora significa che non c'è corrispondenza nel db
@@ -91,14 +85,12 @@ public class CheckLogin extends HttpServlet {
 			ServletContext servletContext = getServletContext();
 			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 			ctx.setVariable("errorCredentials", "Username o password non corretti");
-			//path= getServletContext().getContextPath() + "/Welcome";
-			//response.sendRedirect(path);
 			
 			path = "/WEB-INF/LOGIN_REGISTRAZIONE.html";
 			templateEngine.process(path, ctx, response.getWriter());
 		} else {
 			/*
-			 * #creo la sessione chiamando la request, il metodo getSession e settando l'attributo
+			 * creo la sessione chiamando la request, il metodo getSession e settando l'attributo
 			 * "utente" con l'oggetto utente
 			 */
 			
@@ -109,18 +101,6 @@ public class CheckLogin extends HttpServlet {
 			request.getSession().setAttribute("utente", utente);
 			path = getServletContext().getContextPath() + "/GoToHome";
 			response.sendRedirect(path);
-			
-			
-			
-			/*
-			 * in questo modo andiamo direttamente alla pagina che vogliamo, senza passare per il reindirizzamento alla socket gotohome
-			 */
-			/*path = "/WEB-INF/HOMEPAGE.html";
-			request.getSession().setAttribute("utente", utente);
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("utente", utente);
-			templateEngine.process(path, ctx, response.getWriter());*/
 		}
 
 	}

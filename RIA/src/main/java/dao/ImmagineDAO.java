@@ -1,13 +1,18 @@
 package dao;
 
-import java.io.InputStream; 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;   
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
+
 
 import beans.Immagine;
 
@@ -34,11 +39,11 @@ private Connection connection;
 		}
 	}
 	
-	public List<Immagine> selezionaImmaginiDaAlbum(String user_id, String titolo_album) throws SQLException{
+	public List<Immagine> selezionaImmaginiDaAlbum(String user_id, String titolo_album) throws SQLException, IOException{
 		
 		List<Immagine> immagini = new ArrayList<Immagine>();
 		
-		String query = "SELECT titolo,percorso FROM immagine WHERE user_id = ? AND titolo_album = ? AND user_album = ? ORDER BY data DESC";
+		String query = "SELECT * FROM immagine WHERE user_id = ? AND titolo_album = ? AND user_album = ? ORDER BY data DESC";
 		
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setString(1, user_id);
@@ -48,7 +53,17 @@ private Connection connection;
 				while (result.next()) {
 					Immagine immagine = new Immagine();
 					immagine.setTitolo(result.getString("titolo"));
+					immagine.setTesto(result.getString("testo"));
+					immagine.setTitoloAlbum(result.getString("titolo_album"));
+					immagine.setUserAlbum(result.getString("user_album"));
 					immagine.setPercorso(result.getString("percorso"));
+					immagine.setData(result.getDate("data"));
+					//immagine.setBlob(result.getBlob("img"));
+					byte[] fileContent = FileUtils.readFileToByteArray(new File(result.getString("percorso")));
+					String encodedString = Base64.getEncoder().encodeToString(fileContent);
+					immagine.setImage(encodedString);
+					//immagine.setBlob(result.getBlob("img").getBinaryStream());
+					
 					//System.out.println("percorso bello" + result.getString("percorso"));
 					immagini.add(immagine);
 				}

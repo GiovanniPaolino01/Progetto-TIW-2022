@@ -1,22 +1,17 @@
 package controllers;
 
-import java.io.IOException;    
+import java.io.IOException;     
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
-
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang.StringEscapeUtils;
-
 import beans.Utente;
-import dao.UtenteDAO;
 import dao.AlbumDAO;
 import utils.ConnectionHandler;
 import javax.servlet.annotation.MultipartConfig;

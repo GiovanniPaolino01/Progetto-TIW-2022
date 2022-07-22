@@ -33,9 +33,6 @@
 					<td> <a th:href="@{/GoToAlbumPage(titolo=${a.titolo}, username=${a.user_id})}" th:text="${a.titolo}"></a></td>
 					<td th:text="${a.user_id}"></td>
 					<td th:text="${a.data_creazione}"></td>
-					<!--  <td><a th:href="@{/...(titolo=${a.titolo})}">Apri</a></td> -->
-					<!-- servlet che ci prende le immagini da quell'album-->
-					<!--  <td><a th:href="@{/GetMissionDetails(missionid=${m.id})}">Details</a></td>-->
 				</tr>
 			</tbody>
 		</table>
@@ -55,8 +52,6 @@
 					<td> <a th:href="@{/GoToAlbumPage(titolo=${a.titolo}, username=${a.user_id})}" th:text="${a.titolo}"></a></td>
 					<td th:text="${a.user_id}"></td>
 					<td th:text="${a.data_creazione}"></td>
-					<!-- servlet che ci prende le immagini da quell'album-->
-					<!--  <td><a th:href="@{/GetMissionDetails(missionid=${m.id})}">Details</a></td>-->
 				</tr>
 			</tbody>
 		</table>
@@ -81,7 +76,8 @@
 		<div class="sub_container">
 			<h3>Aggiungi immagine ad un album:</h3>
 			<fieldset>
-				<form action="#" th:action="@{/InsertIntoAlbum}" method="POST">
+				<!-- <form action="#" th:action="@{/InsertIntoAlbum}" method="POST">-->
+				<form action="InsertIntoAlbum" method="POST">
 					<table>
 					<tr><th>Nome Album: </th><td>
 						<select name="album">
@@ -95,7 +91,6 @@
 						</td></tr>
 					<tr><th><input type="submit" value="Submit"></th></tr>
 					</table>
-					<!--  <p class = "errore" th:text=" ${errorCredentials}"></p> -->
 				</form>
 			</fieldset>
 		</div>

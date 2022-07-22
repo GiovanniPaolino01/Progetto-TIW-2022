@@ -60,10 +60,6 @@ public class CheckRegistration extends HttpServlet {
 			ripeti_pw = StringEscapeUtils.escapeJava(request.getParameter("ripeti_pw"));
 			
 			/*Controllo la correttezza della mail*/
-			//String giusta = '/^[A-z0-9\.\+_-]+@[A-z0-9\._-]+\.[A-z]{2,6}$/';
-			//username.contains(giusta);
-			
-			//String[] l = username.split("@");
 			
 			Pattern p = Pattern.compile(".+@.+\\.[a-z]+", Pattern.CASE_INSENSITIVE);
 			Matcher m = p.matcher(username);
@@ -114,11 +110,11 @@ public class CheckRegistration extends HttpServlet {
 			 * (il primo per importanza)*/
 			if(userEsistente) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				response.getWriter().println("Username già esistente, scegline un altro.");
+				response.getWriter().println("Username gia' esistente, scegline un altro.");
 			}
 			else if(lunghezzaCampiEsagerata) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				response.getWriter().println("Username e Password non devono essere più lunghe di 20 caratteri!");
+				response.getWriter().println("Username e Password non devono essere piu' lunghe di 20 caratteri!");
 			}
 			else if(emailScorretta) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

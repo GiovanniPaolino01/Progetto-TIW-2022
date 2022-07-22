@@ -1,10 +1,8 @@
 package controllers;
 
-import java.io.IOException;   
+import java.io.IOException;    
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.sql.Date;
@@ -15,7 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
@@ -23,13 +20,9 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import beans.Utente;
 import dao.AlbumDAO;
 import dao.UtenteDAO;
 import utils.ConnectionHandler;
-
-
-/*Aggiornato al 07/05/22 */
 
 @WebServlet("/CheckRegistration")
 public class CheckRegistration extends HttpServlet {
@@ -74,18 +67,11 @@ public class CheckRegistration extends HttpServlet {
 			pw = StringEscapeUtils.escapeJava(request.getParameter("pw"));
 			ripeti_pw = StringEscapeUtils.escapeJava(request.getParameter("ripeti_pw"));
 			
-			/*Controllo la correttezza della mail*/
-			//String giusta = '/^[A-z0-9\.\+_-]+@[A-z0-9\._-]+\.[A-z]{2,6}$/';
-			//username.contains(giusta);
-			
-			//String[] l = username.split("@");
-			
+			/*Controllo la correttezza della mail*/			
 			Pattern p = Pattern.compile(".+@.+\\.[a-z]+", Pattern.CASE_INSENSITIVE);
 			Matcher m = p.matcher(username);
 			boolean matchFound = m.matches();
 
-			
-			
 			if(!matchFound) {
 				isBadRequest = true;
 				emailScorretta = true;

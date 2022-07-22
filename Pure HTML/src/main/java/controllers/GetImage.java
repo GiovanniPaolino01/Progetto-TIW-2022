@@ -1,34 +1,21 @@
 package controllers;
 
 
-import java.io.File;  
+import java.io.File;   
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLDecoder;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
-
-import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
-import beans.Utente;
-import dao.ImmagineDAO;
 import utils.ConnectionHandler;
 
 
@@ -60,22 +47,11 @@ public class GetImage extends HttpServlet {
     	
     	String percorso = request.getParameter("percorso");
 
-    	
-		//System.out.println("filename "+filename+" \tfolderpath "+ folderPath + "\tpercorso:" + percorso + "estensione" + estensione);
-		
-		File file = new File(percorso); //folderPath inizialized in init
+		File file = new File(percorso); //folderPath inizializzato nell'init
 		String filename = file.getName();
 		
-		file = new File(folderPath, filename); //folderPath inizialized in init
-		
-		// set headers for browser
-		/*response.setHeader("Content-Type", getServletContext().getMimeType(filename));
-		response.setHeader("Content-Length", String.valueOf(file.length()));
-		
-		//TODO: test what happens  if you change inline by  attachment
-		//System.out.println("Content-Disposition" + "inline; filename=\"" + file.getName() + "\"");
-		response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");*/
-																									
+		file = new File(folderPath, filename);
+															
 		// copy file to output stream
 		Files.copy(file.toPath(), response.getOutputStream());
 

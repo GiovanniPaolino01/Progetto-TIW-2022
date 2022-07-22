@@ -69,7 +69,7 @@ public class CheckLogin extends HttpServlet {
 		 * altrimenti va alla home page creando la sessione#
 		 */
 
-		String path;
+		
 		if (utente == null) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			response.getWriter().println("Credenziali incorrette");   	//idem...

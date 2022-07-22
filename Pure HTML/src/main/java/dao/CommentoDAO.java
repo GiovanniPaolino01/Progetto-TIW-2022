@@ -1,14 +1,11 @@
 package dao;
 
-import java.sql.Connection;    
-import java.sql.Date;
+import java.sql.Connection;     
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import beans.Album;
 import beans.Commento;
 
 public class CommentoDAO {
@@ -33,15 +30,16 @@ public class CommentoDAO {
 		
 	}
 	
-	public List<Commento> ottieniCommenti(String titolo_immagine) throws SQLException{
+	public List<Commento> ottieniCommenti(String titolo_immagine, String username) throws SQLException{
 		
 		List<Commento> commenti = new ArrayList<Commento>();
 
-		String query = "SELECT * FROM commento WHERE titolo_immagine = ?";
+		String query = "SELECT * FROM commento WHERE titolo_immagine = ? AND user_immagine = ?";
 		
 		//preparo i parametri per fare una lettura corretta da db
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setString(1, titolo_immagine);
+			pstatement.setString(2, username);
 			try (ResultSet result = pstatement.executeQuery();) {
 				while (result.next()) {
 					Commento commento = new Commento();

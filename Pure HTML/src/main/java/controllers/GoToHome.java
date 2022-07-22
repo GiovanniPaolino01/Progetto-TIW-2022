@@ -1,6 +1,6 @@
 package controllers;
 
-import java.io.IOException;        
+import java.io.IOException;         
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,14 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import beans.Utente;
-import dao.UtenteDAO;
 import dao.AlbumDAO;
 import dao.ImmagineDAO;
 import beans.Album;
@@ -62,8 +60,8 @@ public class GoToHome extends HttpServlet {
   		
   		Utente utente = (Utente) session.getAttribute("utente");
   		AlbumDAO albumDAO = new AlbumDAO(connection);
-  		ImmagineDAO immagineDAO = new ImmagineDAO(connection)
-;  		List<Album> albumsMiei = new ArrayList<Album>();
+  		ImmagineDAO immagineDAO = new ImmagineDAO(connection);
+  		List<Album> albumsMiei = new ArrayList<Album>();
   		List<Album> albumsNonMiei = new ArrayList<Album>();
   		List<Immagine> nuove_immagini = new ArrayList<Immagine>();
   		
@@ -93,10 +91,8 @@ public class GoToHome extends HttpServlet {
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		
-		if(request.getAttribute("AlbumEsistente") != null /*&& request.getAttribute("AlbumEsistente").equals(true)*/) {
-			//ctx.setVariable("errorCreateAlbum", "Album già esistente");
+		if(request.getAttribute("AlbumEsistente") != null) {
 			ctx.setVariable("errorCreateAlbum", request.getAttribute("AlbumEsistente"));
-			//session.setAttribute("AlbumEsistente", false);
 		}
 		
 		if(request.getAttribute("errorUpload")!=null) {
